@@ -2,6 +2,7 @@ import random
 
 RED   = "\033[1;31m"
 GREEN = "\033[1;32m"
+WHITE = "\033[1;37m"
 DEFAULT_COLOR = "\033[00m"
 
 def get_holiday_color():
