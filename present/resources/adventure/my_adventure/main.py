@@ -3,7 +3,7 @@ ADVENTURE AWAITS
 """
 
 from game_engine import *
-import cozyworld3
+import cozyworld4
 import time
 
 def game_eval(player, room, world):
@@ -38,7 +38,7 @@ def play(player, world, chooser):
         action(player, room)
 
 if __name__ == "__main__":
-    world  = cozyworld3.world()
-    player = cozyworld3.player()
+    world  = cozyworld4.world()
+    player = cozyworld4.player()
     player.room = world.initial_room
     play(player, world, interactive_choose)
