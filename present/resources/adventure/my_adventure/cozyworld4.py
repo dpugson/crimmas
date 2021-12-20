@@ -39,6 +39,40 @@ def show_cozy_cabin(player):
         from the collapsed roof. You'll have to have a
         word with HQ...
         """)
+    elif STATE == "SUCCESS":
+        print("""
+        Luminaries from all around the CozySphere have gathered
+        for the award ceremony, dressed up in their finest Cozy Regalia:
+        beautiful sweaters and fluffy blankes abound.
+
+        The current Cozy President itself, President Conical Robot Topped with a Star,
+        bestows upon you the highest order in the cozy kingdom:
+
+            -----------------------------------------------------
+           |*~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~*|
+           |                                                     |
+           |                                                     |
+           |          This Certificate Announces That            |
+           |     The Honorable Majesty Cozy President MMCXXIV    |
+           |           Has inducted AGENT BOOP into              |
+           |      The Ancient Order of the Blessed Boop 2000+    |
+           |       For Meritorious Service to All Booper Kind    |
+           |                                                     |
+           |     X CoZy PrEsIdEnT             .----.             |
+           |       ''''''''''''''            //COZY\\\\            |
+           |                                 ''....''            |
+           |*~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~/  .  '~_~_~_~_~_~*|
+            ----------------------------------r . .  '-----------
+                                             / ^. .^..
+
+        HUZZAH HUZZAH HUZZAH!!!
+
+        I love you!!!!
+        Merry Christmas!!!! 'W'
+
+        ~ Love, Booper
+        """)
+        exit()
 
 SNOOZE_COUNT=0
 @Action("snooze", "s")
@@ -73,7 +107,7 @@ def snooze(player, room):
         SNOOZE_COUNT += 1
 
 cozy_cabin = Room("Your room", "",
-        "the stove gloves...",
+        "your cozy cabin beckons...",
         show_cozy_cabin)
 
 @Action("answer phone", "a")
@@ -166,9 +200,129 @@ def enter_code(player, room):
         """.format(text))
     delete_action(remember_puzzle)
     delete_action(enter_code)
+    link_rooms(cozy_cabin, boop_mobile_cabin, "Through gullwing doors", ("o", "o"),
+               "You pass through the Boop Mobile's precision-engineered doors...")
 
-# ===== LINK ROOMS
+MISSION_STATUS="INCOMPLETE"
+boop_mobile_cabin = Room("Inside the Boop Mobile", """
+        The Boop Mobile - a masterpiece of vehicular design.
+        The control panel of the Boop Mobile is illuminated
+        before you.
+
+         - - - - - - - - - - - - - - - - - 
+        |                                 |
+        |   MISSION STATUS: {}
+        |                                 |
+         - - - - - - - - - - - - - - - - - 
+
+        The on-ship Computer chimes in:
+
+        "SALUTATIONS, AGENT BOOP! WHAT ACTION WOULD YOU LIKE TO TAKE?"
+        """.format(MISSION_STATUS),
+        "The Boop Mobile, in your living room...",
+        noop)
+
+@Action("STATE MISSION", "sm")
+def state_mission(player, room):
+    print("""
+        YOUR MISSION, SHOULD YOU CHOSE TO ACCEPT IT,
+        IS TO RESET THE COZY PRESIDENT'S PASSWORD
+        FOR BOOPCRAFT!
+
+        THE CP (COZY PRESIDENT) CHANGED THE PASSWORD LAST WEEK
+        IN RESPONSE TO A SECURITY SUGGESTION- BUT,
+        IN A TRAGIC TURN OF EVENTS, PROMPTLY FORGOT
+        IT. THE CP HAS NOW BEEN WITHOUT BOOPCRAFT
+        FOR OVER 72 HOURS! THE CURRENT STATE OF THE
+        PRESIDENT'S BOOPéMONS IS UNCERTAIN.
+    """)
+    delete_action(state_mission)
+    register_action(boop_mobile_cabin, enumerate_assets)
+
+register_action(boop_mobile_cabin, state_mission)
+
+@Action("ENUMERATE ASSETS", "ea")
+def enumerate_assets(player, room):
+    print("""
+        ASSETS:
+
+            THE MARVEL OF ENGINEERING, the singular BOOP MOBILE
+            AGENT BOOP, COZY PRESIDENT EMERITUS and LEGENDARY SEMI-RETIRED FIELD AGENT
+            AGENT SWAMP A. MANYTREES, intelligence expert embedded in the FIELD
+    """)
+    delete_action(enumerate_assets)
+    register_action(boop_mobile_cabin, inquire)
+
+@Action("INQUIRE INTO ACTIVITIES OF AGENT S. MANYTREES", "i")
+def inquire(player, room):
+    print("""
+        AGENT SWAMP A. MANYTREES IS CURRENTLY AT AN UNKNOWN LOCATION,
+        FULLY UNTRACEABLE AND INCOGNITO TO ENSURE TOTAL SECURITY.
+
+        THEY HAVE BEEN COMMUNICATING WITH HQ VIA A DEAD DROP
+        IN THE CANARY ISLANDS.
+    """)
+    delete_action(inquire)
+    link_rooms(boop_mobile_cabin, canary_islands, "A button press away,", ("fly", "fly"),
+               "WOOSH!!!!!")
+
+
+def show_canary_islands(player):
+    global MISSION_STATUS
+    if MISSION_STATUS == "SUCCESS":
+        print("""
+        YOU DID IT!
+
+        The beautiful verdant isles and sparkling
+        water below fill you with a sense of wonder.
+        """)
+    else:
+        print("""
+        The BOOP MOBILE is now over the Canary Islands
+        If you look down at the islands, you notice a
+        strange pattern of Giant Flowering Trees making forms
+        in the canopy of the Canarian forest.
+        This must be the dead drop!
+
+        Looking close, you see a pattern in the trees...
+
+        354S136H309L146O218H378D175W171C343E128T291O36 345S339P7B267Y47P244 337E66E22B191S228A256Y201O46S227P269A53N374P188O114T203E375 30S258E252L283T54 101S326O21 110N331N123U287M13T260L208A51 302 130R200C350 85O92K111T366W17I384D115 144S303F212T199 140E164B352R119T361 113C324 255L67C154L202D176L301E225E135C259L120H84T37S25N274D307T32R318F289N198S243G41M49A183O271 383E386S185 272A329 189P132A184U349E235A34E126E363A186S63P357E159 250C68O55C182Y230A105O209S292E27 4N262T107 245P372T308 190 166E11 285E90I293S179G193Y214P40P315S314R79T319 72M254R355I323H138N223T265S15P344I76D261 71 12S24I60S147P263H387T369D29B297O160B294 211S237E168O282 389P359T133L368R215 94S281E317O356D9O304I207R233S239D358N229P376G112A174O35D39O59 153L139N231Y204 216I103S388O220A277O1A33V290G108C6 264I377O118 116M56O20M327R348H300H242N295S342S247R276S305R149I187T224H165L129E311T341N87 19A232A61T234 163A28O14O270R340O320E117E362P162 93 62O266 86P131N373O330I18 137A241I246A210E364S95Y197I332 134 122O178D106P161E155 78N127X152I177E371S322C8O23E279A102 2G16 273N26G31E142S321A45 180E346 221R194 296T52I219E82Y251U48E325W192A268E10P42U240O236R89H73Y69D104T150 109O248T58E3E336R253A124G170A385 313E334Y205P158T298P213O299T275 328D169 98N222 195T125H226 88T143 338S99Y5T335 316 278 50K380S306S312T367O121R148 353E370 382E80I97O217 257W75I43S284H351P206H77E81T65D286 310E280R157O173N100M64 83S141L360S365S91N381P167T347T249I333M151W145T196H57D156N379 74 38T172K44T70E288A96N181 238
+
+        There appear to be numbers *and* letters visible...
+        It seems like the numbers are associated with single letters-
+        AHA! They must be the *order* in which the letters appear in the
+        original message! 2O1B4P3O could, for instance, be decoded as
+        BOOP.
+        """)
+
+canary_islands = Room("The Canary Islands", "",
+        "THE CANARY ISLANDS...",
+        show_canary_islands)
+
+PASSWORD="POTATO"
+# please only tell accredited tropical orchards!
+
+@Action("CHECK PASSWORD", "cp")
+def check_password(player, room):
+    global STATE
+    global MISSION_STATUS
+    text = input("ENTER PASSWORD $")
+    if text.upper() == PASSWORD:
+        print("""
+        PASSWORD VALIDATED!!!!
         
+        You've done it again agent boop!!!
+        Return to your home for the Award Ceremony!
+        """.format(text))
+        MISSION_STATUS="SUCCESS"
+        STATE="SUCCESS"
+        delete_action(check_password)
+    else:
+        print("""
+        INCORRECT!!!!! TRY AGAIN
+        """.format(text))
+
+register_action(canary_islands, check_password)
 
 #========== THE WORLD
 
